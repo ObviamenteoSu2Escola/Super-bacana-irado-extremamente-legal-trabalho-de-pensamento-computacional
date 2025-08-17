@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliomania - Prisioneiro das Páginas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000000;
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(139, 0, 0, 0.03) 10px, rgba(139, 0, 0, 0.03) 20px),
+                repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0, 0, 0, 0.1) 10px, rgba(0, 0, 0, 0.1) 20px);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 15px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 25px;
+            background: linear-gradient(135deg, #1a0000, #000000);
+            border: 4px solid #8B0000;
+            box-shadow: 
+                inset 0 0 20px rgba(139, 0, 0, 0.4),
+                0 0 50px rgba(139, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            background: linear-gradient(45deg, #8B0000, #FF0000, #8B0000, #660000);
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: borderFlow 4s ease-in-out infinite;
+        }
+
+        @keyframes borderFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header h1 {
+            color: #CC0000;
+            font-size: 3.2em;
+            margin-bottom: 10px;
+            text-shadow: 4px 4px 0px #000000, 0 0 25px #8B0000;
+            letter-spacing: 5px;
+            font-weight: bold;
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { 
+                transform: scale(1); 
+                text-shadow: 4px 4px 0px #000000, 0 0 25px #8B0000; 
+            }
+            50% { 
+                transform: scale(1.03); 
+                text-shadow: 4px 4px 0px #000000, 0 0 35px #FF0000; 
+            }
+        }
+
+        .header p {
+            color: #999;
+            font-style: italic;
+            font-size: 1.3em;
+            text-shadow: 2px 2px 0px #000000;
+            margin-top: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #0a0a0a, #1a0000);
+            padding: 20px;
+            border: 3px solid #8B0000;
+            text-align: center;
+            box-shadow: 
+                inset 0 0 15px rgba(0, 0, 0, 0.8),
+                0 0 25px rgba(139, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, transparent 40%, rgba(139, 0, 0, 0.15) 50%, transparent 60%);
+            animation: shine 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .stat-box h3 {
+            color: #CC0000;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px #000000;
+            z-index: 1;
+            position: relative;
+        }
+
+        .progress-bar {
+            background: #000000;
+            height: 30px;
+            border: 2px solid #8B0000;
+            overflow: hidden;
+            margin-top: 12px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8B0000, #FF0000, #CC0000, #8B0000);
+            background-size: 200% 100%;
+            transition: width 0.8s ease;
+            animation: bloodFlow 2s linear infinite;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+
+        @keyframes bloodFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        .story-container {
+            background: linear-gradient(135deg, #0a0a0a, #1a0000, #0a0a0a);
+            padding: 30px;
+            border: 4px solid #8B0000;
+            margin-bottom: 25px;
+            box-shadow: 
+                inset 0 0 30px rgba(139, 0, 0, 0.3),
+                0 0 40px rgba(0, 0, 0, 0.9);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-container::before {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            background: linear-gradient(45deg, #8B0000, #FF0000, #8B0000);
+            z-index: -1;
+            animation: containerGlow 5s ease-in-out infinite;
+        }
+
+        @keyframes containerGlow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        .room-title {
+            color: #FF4444;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 3px 3px 0px #000000, 0 0 20px #8B0000;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: roomTitleFlicker 2.5s ease-in-out infinite;
+        }
+
+        @keyframes roomTitleFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+
+        .story-text {
+            font-size: 1.25em;
+            line-height: 1.9;
+            margin-bottom: 30px;
+            text-align: justify;
+            color: #d0d0d0;
+            text-shadow: 1px 1px 0px #000000;
+            text-indent: 35px;
+        }
+
+        .door-interface {
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            border: 3px solid #666;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .door-number {
+            font-size: 2.2em;
+            color: #8B0000;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 0px #000000;
+            font-weight: bold;
+        }
+
+        .door-action {
+            font-size: 1.4em;
+            color: #ccc;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 0px #000000;
+        }
+
+        .choices {
+            display: grid;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .choice-btn {
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            color: #d0d0d0;
+            border: 3px solid #666;
+            padding: 18px 25px;
+            font-size: 1.15em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            text-shadow: 1px 1px 0px #000000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .choice-btn:hover::before {
+            left: 100%;
+        }
+
+        .choice-btn:hover {
+            background: linear-gradient(135deg, #8B0000, #660000);
+            border-color: #FF0000;
+            color: #fff;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .danger { color: #FF4444; font-weight: bold; }
+        .safe { color: #44CC44; font-weight: bold; }
+        .warning { color: #FFAA44; font-weight: bold; }
+
+        .name-input {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #0a0a0a, #1a0000);
+            padding: 40px;
+            border: 4px solid #8B0000;
+            box-shadow: 
+                inset 0 0 30px rgba(139, 0, 0, 0.4),
+                0 0 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .name-input h2 {
+            color: #CC0000;
+            margin-bottom: 25px;
+            text-shadow: 3px 3px 0px #000000;
+            font-size: 2em;
+        }
+
+        .name-input p {
+            margin-bottom: 25px;
+            line-height: 1.8;
+            color: #bbb;
+            font-size: 1.15em;
+            text-shadow: 1px 1px 0px #000000;
+        }
+
+        .name-input input {
+            background: #000000;
+            border: 3px solid #8B0000;
+            color: #d0d0d0;
+            padding: 20px;
+            font-size: 1.4em;
+            text-align: center;
+            margin: 20px;
+            font-family: 'Courier New', monospace;
+            width: 350px;
+            box-shadow: inset 0 0 15px rgba(139, 0, 0, 0.3);
+        }
+
+        .name-input input:focus {
+            outline: none;
+            border-color: #FF0000;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7), inset 0 0 15px rgba(139, 0, 0, 0.5);
+        }
+
+        .name-input button, .restart-btn {
+            background: linear-gradient(135deg, #8B0000, #CC0000);
+            color: #fff;
+            border: 3px solid #8B0000;
+            padding: 20px 40px;
+            font-size: 1.3em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px #000000;
+            margin-top: 20px;
+        }
+
+        .name-input button:hover, .restart-btn:hover {
+            background: linear-gradient(135deg, #CC0000, #FF0000);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.9);
+            transform: translateY(-3px);
+        }
+
+        /* Efeitos específicos das salas */
+        .room-espelhos { 
+            background: linear-gradient(135deg, #111122, #000011);
+            border-color: #4444BB;
+            animation: mirrorReflection 3s ease-in-out infinite;
+        }
+        .room-paraiso { 
+            background: linear-gradient(135deg, #221111, #110000);
+            border-color: #BB4444;
+            animation: letterFloat 4s linear infinite;
+        }
+        .room-breu { 
+            background: #000000;
+            border-color: #333333;
+            animation: darkness 2s ease-in-out infinite;
+        }
+        .room-perdicao { 
+            background: linear-gradient(45deg, #111111, #222222, #111111);
+            border-color: #777777;
+            animation: lostPaths 5s linear infinite;
+        }
+        .room-afogamento { 
+            background: linear-gradient(135deg, #001133, #000022);
+            border-color: #004488;
+            animation: drowning 3s ease-in-out infinite;
+        }
+        .room-trilha { 
+            background: linear-gradient(135deg, #112200, #001100);
+            border-color: #448800;
+            animation: endlessPath 6s linear infinite;
+        }
+        .room-toca { 
+            background: radial-gradient(circle, #220011, #110000, #000000);
+            border-color: #550033;
+            animation: rabbitHole 4s ease-in-out infinite;
+        }
+        .room-tinta { 
+            background: linear-gradient(135deg, #000000, #111111);
+            border-color: #444444;
+            animation: inkFlow 3s linear infinite;
+        }
+        .room-apocalipse { 
+            background: linear-gradient(135deg, #440000, #220000, #110000);
+            border-color: #880000;
+            animation: apocalypse 2s ease-in-out infinite;
+        }
+        .room-distopia { 
+            background: linear-gradient(135deg, #333333, #111111, #000000);
+            border-color: #666666;
+            animation: dystopian 4s linear infinite;
+        }
+
+        @keyframes mirrorReflection {
+            0%, 100% { box-shadow: inset 0 0 25px rgba(68, 68, 187, 0.4); }
+            50% { box-shadow: inset 0 0 50px rgba(68, 68, 187, 0.7); }
+        }
+        @keyframes letterFloat {
+            0% { filter: brightness(1) hue-rotate(0deg); }
+            50% { filter: brightness(1.3) hue-rotate(10deg); }
+            100% { filter: brightness(1) hue-rotate(0deg); }
+        }
+        @keyframes darkness {
+            0%, 100% { box-shadow: inset 0 0 60px rgba(0, 0, 0, 1); }
+            50% { box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8); }
+        }
+        @keyframes lostPaths {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        @keyframes drowning {
+            0%, 100% { transform: translateY(0px); filter: blur(0px); }
+            50% { transform: translateY(-3px); filter: blur(1px); }
+        }
+        @keyframes endlessPath {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 200%; }
+        }
+        @keyframes rabbitHole {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        @keyframes inkFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 0%; }
+        }
+        @keyframes apocalypse {
+            0%, 100% { filter: contrast(1) brightness(1); }
+            50% { filter: contrast(1.5) brightness(0.7); }
+        }
+        @keyframes dystopian {
+            0% { filter: grayscale(0.5); }
+            50% { filter: grayscale(1); }
+            100% { filter: grayscale(0.5); }
+        }
+
+        .final-transformation {
+            text-align: center;
+            background: linear-gradient(135deg, #440000, #220000);
+            padding: 40px;
+            border: 4px solid #BB0000;
+            animation: deathAnimation 3s ease-in-out infinite;
+        }
+
+        @keyframes deathAnimation {
+            0%, 100% { 
+                box-shadow: 0 0 40px rgba(187, 0, 0, 0.9);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 80px rgba(255, 0, 0, 1);
+                transform: scale(1.03);
+            }
+        }
+
+        .victory {
+            text-align: center;
+            background: linear-gradient(135deg, #004400, #002200);
+            padding: 40px;
+            border: 4px solid #44BB44;
+            animation: victoryGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes victoryGlow {
+            0%, 100% { box-shadow: 0 0 30px rgba(68, 187, 68, 0.6); }
+            50% { box-shadow: 0 0 60px rgba(68, 187, 68, 1); }
+        }
+
+        .message {
+            padding: 18px;
+            margin: 20px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            animation: messageAppear 0.5s ease-in-out;
+        }
+
+        @keyframes messageAppear {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.danger {
+            background: linear-gradient(135deg, #440000, #330000);
+            border: 3px solid #FF0000;
+            color: #FF6666;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .message.safe {
+            background: linear-gradient(135deg, #004400, #003300);
+            border: 3px solid #00BB00;
+            color: #66FF66;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .message.warning {
+            background: linear-gradient(135deg, #443300, #332200);
+            border: 3px solid #FFBB00;
+            color: #FFCC66;
+            box-shadow: 0 0 20px rgba(255, 187, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 2.5em;
+            }
+            .name-input input {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BIBLIOMANIA</h1>
+            <p>Prisioneiro das Páginas Sombrias</p>
+        </div>
+
+        <div id="nameScreen" class="name-input">
+            <h2>🔮 O Livro Amaldiçoado 🔮</h2>
+            <p>Você encontrou um livro antigo em uma biblioteca abandonada. Suas páginas pareciam sussurrar segredos proibidos. Quando abriu o livro, foi sugado para dentro de suas páginas...</p>
+            <p><strong>Agora você está preso em um labirinto de salas dentro do livro. Cada sala que adentra consome sua sanidade. Não há volta.</strong></p>
+            <br>
+            <input type="text" id="playerName" placeholder="Digite seu nome..." maxlength="20">
+            <br>
+            <button onclick="startGame()">🌀 Ser Absorvido pelo Livro</button>
+        </div>
+
+        <div id="gameScreen" style="display: none;">
+            <div class="stats">
+                <div class="stat-box">
+                    <h3>📖 Prisioneiro</h3>
+                    <div id="playerNameDisplay" style="font-size: 1.5em; color: #FF6B6B; position: relative; z-index: 1;">Nome</div>
+                </div>
+                <div class="stat-box">
+                    <h3>💀 Perda de Sanidade</h3>
+                    <div style="position: relative; z-index: 1;">Nível: <span id="sanityLevel">0</span>/5</div>
+                    <div class="progress-bar">
+                        <div id="sanityFill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="storyContainer" class="story-container">
+                <div id="doorInterface" class="door-interface">
+                    <div class="door-number">🚪 PORTA <span id="doorNumber">1</span></div>
+                    <div class="door-action">ENTRAR NA SALA <span id="roomName">DESCONHECIDA</span></div>
+                    <button class="choice-btn" onclick="enterRoom()" style="width: 100%; text-align: center; margin-top: 15px;">
+                        🔓 ATRAVESSAR A PORTA
+                    </button>
+                </div>
+                <div id="roomContent" style="display: none;">
+                    <div id="roomTitle" class="room-title"></div>
+                    <div id="storyText" class="story-text"></div>
+                    <div id="messageArea"></div>
+                    <div id="choices" class="choices"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            playerName: '',
+            currentRoom: 0,
+            sanityLevel: 0,
+            currentRoomType: null,
+            inRoom: false
+        };
+
+        const rooms = {
+            espelhos: {
+                title: "🪞 Sala de Espelhos Infinitos",
+                description: "Infinitos espelhos refletem versões distorcidas de sua alma. Cada reflexo mostra uma parte de você sendo consumida pelas páginas do livro. Os espelhos sussurram seus medos mais profundos.",
+                deathText: "Você se torna um dos espelhos, condenado a refletir eternamente as almas perdidas que passam por esta sala maldita."
+            },
+            paraiso: {
+                title: "📚 Paraíso da Literatura Perdida", 
+                description: "Uma biblioteca celestial onde cada livro contém as mais belas histórias já escritas. Mas a beleza é uma armadilha cruel - cada palavra lida corrói sua humanidade gradualmente.",
+                deathText: "Você se dissolve em letras douradas que voam ao redor da sala, formando eternamente novas histórias para outros prisioneiros lerem."
+            },
+            breu: {
+                title: "🌑 Sala do Breu Eterno",
+                description: "Escuridão absoluta e sufocante. Você não consegue ver nem suas próprias mãos. Apenas o som fantasmagórico de páginas sendo viradas ecoa no vazio infinito.",
+                deathText: "Você desaparece completamente na escuridão, tornando-se parte do nada eterno que consome todas as almas perdidas."
+            },
+            perdicao: {
+                title: "🌀 Sala da Perdição Infinita",
+                description: "Caminhos labirínticos se estendem em todas as direções impossíveis. Cada passo que dá o leva mais longe de qualquer destino real. A geometria desafia a lógica.",
+                deathText: "Você se torna um andarilho sem rumo, perdendo todo discernimento da realidade, vagando eternamente pelos corredores impossíveis."
+            },
+            afogamento: {
+                title: "🌊 Sala do Afogamento de Tinta",
+                description: "Tinta negra e viscosa brota das paredes como água maldita. O líquido sobe lentamente, carregando palavras que se dissolvem e se reformam ao seu redor em padrões hipnóticos.",
+                deathText: "Você se transforma em uma criatura abissal feita de tinta e papel, nadando eternamente no oceano de palavras perdidas."
+            },
+            trilha: {
+                title: "🛤️ Trilha do Destino Perdido",
+                description: "Uma trilha serpenteante se estende infinitamente através de paisagens impossíveis. Placas enferrujadas ao longo do caminho prometem um fim que nunca chega.",
+                deathText: "Você enlouquece por não encontrar o final da trilha, caminhando para sempre em círculos que apenas sua mente fragmentada percebe."
+            },
+            toca: {
+                title: "🕳️ Toca do Coelho Dimensional",
+                description: "Buracos infinitos perfuram o chão e as paredes como feridas na realidade. Cada buraco leva a uma dimensão diferente, todas igualmente impossíveis de escapar.",
+                deathText: "Você fragmenta sua existência através de infinitas realidades paralelas até que nada reste de sua consciência original."
+            },
+            tinta: {
+                title: "🖋️ Sala dos Rios de Tinta",
+                description: "Rios de tinta negra fluem pelas paredes, formando e desfazendo palavras continuamente. O ar está denso com o cheiro hipnotizante de tinta fresca e pergaminhos antigos.",
+                deathText: "Você se torna a própria tinta líquida, fluindo eternamente pelas páginas do livro, formando as histórias macabras de outros prisioneiros."
+            },
+            apocalipse: {
+                title: "🔥 Sala do Apocalipse Literário",
+                description: "O fim de todos os mundos fictícios se desenrola ao seu redor em velocidade alucinante. Civilizações inteiras nascem e morrem em segundos enquanto você observa impotente.",
+                deathText: "Você se transforma em um arauto apocalíptico, condenado a destruir infinitas realidades dentro das páginas amaldiçoadas do livro."
+            },
+            distopia: {
+                title: "🏭 Metrópole Distópica Eterna",
+                description: "Uma megalópole mecânica e opressiva se estende infinitamente em todas as direções. Estruturas impossíveis crescem e se reconfiguram constantemente, desafiando as leis da física.",
+                deathText: "Você se torna uma megaestrutura senciente, parte da arquitetura distópica eterna, processando infinitamente as almas perdidas que transitam através de você."
+            }
+        };
+
+        function startGame() {
+            const nameInput = document.getElementById('playerName');
+            if (!nameInput.value.trim()) {
+                alert('⚠️ Por favor, digite seu nome para começar...');
+                return;
+            }
+
+            gameState.playerName = nameInput.value.trim();
+            document.getElementById('nameScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            document.getElementById('playerNameDisplay').textContent = gameState.playerName;
+
+            showDoor();
+        }
+
+        function updateStats() {
+            document.getElementById('sanityLevel').textContent = gameState.sanityLevel;
+            const fillPercentage = (gameState.sanityLevel / 5) * 100;
+            document.getElementById('sanityFill').style.width = fillPercentage + '%';
+        }
+
+        function showMessage(message, type) {
+            const messageArea = document.getElementById('messageArea');
+            messageArea.innerHTML = `<div class="message ${type}">${message}</div>`;
+            
+            setTimeout(() => {
+                messageArea.innerHTML = '';
+            }, 4000);
+        }
+
+        function showDoor() {
+            gameState.currentRoom++;
+            gameState.inRoom = false;
+            
+            const storyContainer = document.getElementById('storyContainer');
+            storyContainer.className = 'story-container';
+            
+            document.getElementById('doorInterface').style.display = 'block';
+            document.getElementById('roomContent').style.display = 'none';
+            
+            document.getElementById('doorNumber').textContent = gameState.currentRoom;
+            
+            updateStats();
+        }
+
+        function enterRoom() {
+            gameState.sanityLevel++;
+            gameState.inRoom = true;
+            
+            if (gameState.sanityLevel >= 5) {
+                finalTransformation();
+                return;
+            }
+
+            const roomKeys = Object.keys(rooms);
+            const randomRoom = roomKeys[Math.floor(Math.random() * roomKeys.length)];
+            gameState.currentRoomType = randomRoom;
+            
+            const room = rooms[randomRoom];
+            
+            const storyContainer = document.getElementById('storyContainer');
+            storyContainer.className = `story-container room-${randomRoom}`;
+            
+            document.getElementById('doorInterface').style.display = 'none';
+            document.getElementById('roomContent').style.display = 'block';
+            
+            document.getElementById('roomTitle').textContent = room.title;
+            document.getElementById('storyText').textContent = room.description;
+            
+            updateStats();
+            showRoomChoices();
+        }
+
+        function showRoomChoices() {
+            const choicesDiv = document.getElementById('choices');
+            choicesDiv.innerHTML = '';
+
+            // Opção de descansar na sala atual
+            const restChance = Math.floor(Math.random() * 111) - 10; // -10% a 100%
+            const restBtn = document.createElement('button');
+            restBtn.className = 'choice-btn';
+            
+            let chanceText = '';
+            let chanceClass = '';
+            if (restChance < 0) {
+                chanceText = `${Math.abs(restChance)}% de recuperação`;
+                chanceClass = 'safe';
+            } else if (restChance <= 30) {
+                chanceText = `${restChance}% de ataque`;
+                chanceClass = 'warning';
+            } else {
+                chanceText = `${restChance}% de ataque`;
+                chanceClass = 'danger';
+            }
+            
+            restBtn.innerHTML = `🛌 Descansar nesta sala (<span class="${chanceClass}">${chanceText}</span>)`;
+            restBtn.onclick = () => chooseRest(restChance);
+            choicesDiv.appendChild(restBtn);
+
+            // Opções de movimento
+            if (gameState.currentRoom < 10) {
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'choice-btn';
+                nextBtn.innerHTML = '🚪 Seguir para a próxima sala (<span class="warning">10% chance de ataque</span>)';
+                nextBtn.onclick = () => proceedToNextRoom();
+                choicesDiv.appendChild(nextBtn);
+                
+                const riskyBtn = document.createElement('button');
+                riskyBtn.className = 'choice-btn';
+                const riskyChance = Math.floor(Math.random() * 61) + 20; // 20% a 80%
+                riskyBtn.innerHTML = `⚡ Correr rapidamente (<span class="danger">${riskyChance}% chance de ataque</span>)`;
+                riskyBtn.onclick = () => rushToNextRoom(riskyChance);
+                choicesDiv.appendChild(riskyBtn);
+                
+                const cautiousBtn = document.createElement('button');
+                cautiousBtn.className = 'choice-btn';
+                cautiousBtn.innerHTML = `🐾 Avançar cautelosamente (<span class="safe">5% chance de ataque</span>)`;
+                cautiousBtn.onclick = () => proceedCautiously();
+                choicesDiv.appendChild(cautiousBtn);
+                
+            } else {
+                // Última sala - tentar escapar
+                const escapeBtn = document.createElement('button');
+                escapeBtn.className = 'choice-btn';
+                escapeBtn.innerHTML = '📖 Tentar escapar do livro (confronto final - 80% chance de ataque)';
+                escapeBtn.onclick = () => finalConfrontation();
+                choicesDiv.appendChild(escapeBtn);
+            }
+        }
+
+        // CORREÇÃO PRINCIPAL: Sistema de descanso agora funciona corretamente
+        function chooseRest(attackChance) {
+            if (attackChance < 0) {
+                // Chance de recuperação - SEMPRE diminui 1 ponto de sanidade
+                if (gameState.sanityLevel > 0) {
+                    gameState.sanityLevel--; // Diminui 1 ponto de sanidade
+                    showMessage(`🌟 Você encontrou um momento de paz e recuperou sanidade! (Sanidade reduzida para ${gameState.sanityLevel}/5)`, 'safe');
+                    updateStats();
+                } else {
+                    showMessage('💤 Você descansou tranquilamente, já está com sanidade no mínimo...', 'safe');
+                }
+                setTimeout(() => {
+                    if (gameState.currentRoom < 10) {
+                        showDoor();
+                    } else {
+                        finalConfrontation();
+                    }
+                }, 3000);
+            } else {
+                // Chance de ataque durante o descanso
+                attackChance = Math.max(0, attackChance);
+                
+                if (Math.random() * 100 < attackChance) {
+                    creatureAttack('👹 Uma entidade sombria emergiu das sombras da sala durante seu descanso!');
+                } else {
+                    // Descanso bem-sucedido SEM ataque - SEMPRE diminui 1 ponto de sanidade
+                    if (gameState.sanityLevel > 0) {
+                        gameState.sanityLevel--; // Diminui 1 ponto de sanidade
+                        showMessage(`😴 Você descansou com sucesso e recuperou sanidade! (Sanidade reduzida para ${gameState.sanityLevel}/5)`, 'safe');
+                        updateStats();
+                    } else {
+                        showMessage('😰 Você descansou inquietamente, mas evitou perigos...', 'safe');
+                    }
+                    setTimeout(() => {
+                        if (gameState.currentRoom < 10) {
+                            showDoor();
+                        } else {
+                            finalConfrontation();
+                        }
+                    }, 3000);
+                }
+            }
+        }
+
+        function proceedToNextRoom() {
+            if (Math.random() * 100 < 10) {
+                creatureAttack('👻 Uma entidade das páginas emergiu durante sua passagem!');
+            } else {
+                showMessage('🚶 Você avançou com cuidado e conseguiu evitar perigos imediatos...', 'safe');
+                setTimeout(showDoor, 2500);
+            }
+        }
+
+        function rushToNextRoom(attackChance) {
+            if (Math.random() * 100 < attackChance) {
+                creatureAttack('⚡ Sua pressa atraiu a atenção de criaturas sombrias!');
+            } else {
+                showMessage('💨 Você correu rapidamente e conseguiu escapar dos perigos da sala!', 'safe');
+                setTimeout(showDoor, 2500);
+            }
+        }
+
+        function proceedCautiously() {
+            if (Math.random() * 100 < 5) {
+                creatureAttack('😱 Mesmo sendo cauteloso, uma entidade notou sua presença...');
+            } else {
+                showMessage('🤫 Sua cautela foi recompensada. Você avançou silenciosamente...', 'safe');
+                setTimeout(showDoor, 2500);
+            }
+        }
+
+        function creatureAttack(message) {
+            gameState.sanityLevel++;
+            
+            showMessage(`${message} 💀 Sua sanidade foi corroída pela experiência! (Nível: ${gameState.sanityLevel}/5)`, 'danger');
+            
+            updateStats();
+            
+            if (gameState.sanityLevel >= 5) {
+                setTimeout(finalTransformation, 3000);
+            } else {
+                setTimeout(() => {
+                    if (gameState.currentRoom < 10) {
+                        showDoor();
+                    } else {
+                        finalConfrontation();
+                    }
+                }, 3000);
+            }
+        }
+
+        function finalConfrontation() {
+            showMessage('🔮 Você chegou ao confronto final com o livro amaldiçoado...', 'warning');
+            
+            setTimeout(() => {
+                if (Math.random() < 0.8) { // 80% chance de ataque final
+                    gameState.sanityLevel++;
+                    updateStats();
+                    if (gameState.sanityLevel >= 5) {
+                        finalTransformation();
+                    } else {
+                        victory();
+                    }
+                } else {
+                    victory();
+                }
+            }, 2000);
+        }
+
+        function finalTransformation() {
+            const room = rooms[gameState.currentRoomType];
+            const storyContainer = document.getElementById('storyContainer');
+            storyContainer.className = 'story-container final-transformation';
+            storyContainer.innerHTML = `
+                <h2>💀 TRANSFORMAÇÃO FINAL 💀</h2>
+                <div class="room-title">${room ? room.title : 'Sala do Destino Final'}</div>
+                <p><strong>${gameState.playerName}</strong> perdeu completamente a sanidade...</p>
+                <p>${room ? room.deathText : 'Você foi consumido pelas páginas amaldiçoadas do livro.'}</p>
+                <p><em>🌀 Você se tornou parte permanente do livro amaldiçoado, condenado a uma existência eterna dentro das páginas sombrias.</em></p>
+                <button class="restart-btn" onclick="location.reload()">🔄 Ser Absorvido Novamente</button>
+            `;
+        }
+
+        function victory() {
+            const storyContainer = document.getElementById('storyContainer');
+            storyContainer.className = 'story-container victory';
+            storyContainer.innerHTML = `
+                <h2>✨ VITÓRIA IMPROVÁVEL ✨</h2>
+                <div class="room-title">🏆 Escape do Livro Amaldiçoado</div>
+                <p><strong>Parabéns, ${gameState.playerName}!</strong></p>
+                <p>🎉 Contra todas as probabilidades, você conseguiu escapar das páginas amaldiçoadas do livro!</p>
+                <p>Sua força de vontade e determinação quebraram o feitiço que prendia tantas almas perdidas.</p>
+                <p><em>🌅 Você emerge da biblioteca abandonada como um sobrevivente, carregando histórias que poucos viveram para contar.</em></p>
+                <button class="restart-btn" onclick="location.reload()">📚 Explorar Outro Livro Maldito</button>
+            `;
+        }
+    </script>
+</body>
+</html>
